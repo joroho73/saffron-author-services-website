@@ -116,15 +116,12 @@
             maxlength="5000"
             placeholder="What are you writing? How far along are you? What would make the next step easier?"
           ></textarea>
-          <p class="form-note">
-            Your details are used to prepare your enquiry. This form does not
-            upload or store them on the website.
-          </p>
-          <button class="button" type="submit">
-            Prepare my email
-            <span aria-hidden="true">↗</span>
+
+          <div id="formStatus" class="form-status"></div>
+
+          <button id="formButton" class="button" type="submit">
+            Submit your enquiry
           </button>
-          <p id="form-status" role="status"></p>
 
           <div id="email-fallback" hidden>
             <label for="email-draft">
