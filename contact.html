@@ -23,12 +23,11 @@
       content="Tell John about your book and the publishing support you need."
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/site.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
-      <a href="index.html" aria-label="Saffron Author Services home"></a>
+      <a href="index.html" aria-label="Saffron Author Services home">
         <img
           src="images/SAS-logo-colour-transparent-withwords.png"
           alt="Saffron Author Services"
@@ -67,7 +66,7 @@
             saffronauthorservices@gmail.com
           </a>
         </aside>
-        <form id="enquiry-form">
+        <form id="contact-form" method="post" action="/php/contact.php">
           <p class="form-note">
             This form prepares an email in your email app. You can review it
             before sending. Required fields are marked *.
@@ -126,6 +125,7 @@
             <span aria-hidden="true">↗</span>
           </button>
           <p id="form-status" role="status"></p>
+
           <div id="email-fallback" hidden>
             <label for="email-draft">
               Your enquiry — copy this if your email app doesn’t open
@@ -139,6 +139,7 @@
               .
             </p>
           </div>
+
           <noscript>
             <p>
               Please email saffronauthorservices@gmail.com directly. JavaScript
@@ -163,5 +164,8 @@
         © 2026 Saffron Author Services · Your book. Your way.
       </p>
     </footer>
+    <!-- JavaScript -->
+    <script src="/js/site.js" defer></script>
+    <script src="/js/forms.js"></script>
   </body>
 </html>

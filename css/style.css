@@ -312,6 +312,60 @@ nav a[aria-current="page"] {
 .cta h2 {
   font-size: 3rem;
 }
+.homepage-books {
+  margin-top: 0;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.homepage-books > a {
+  display: block;
+}
+
+.books-collage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.homepage-books p {
+  margin: 20px 0 0;
+}
+.home-about {
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 60px;
+  align-items: center;
+}
+
+.home-about .home-portrait {
+  width: 100%;
+  max-width: 300px;
+  margin: 0;
+  justify-self: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.home-about .founder-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #c9c0b3;
+  box-shadow: none;
+}
+
+@media (max-width: 800px) {
+  .home-about {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .home-about .home-portrait {
+    max-width: 240px;
+  }
+}
+
 footer {
   background: var(--navy);
   color: var(--cream);
