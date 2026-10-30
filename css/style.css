@@ -494,6 +494,23 @@ details p {
 .portrait-placeholder small {
   font-size: 0.75rem;
 }
+.portrait-frame {
+  width: 100%;
+  max-width: 360px;
+  justify-self: center;
+  align-self: center;
+  padding: 18px;
+  background: #e6dfd3;
+  border: 1px solid #c9c0b3;
+}
+.founder-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--cream);
+  border: 1px solid #b8ad9d;
+  box-shadow: none;
+}
 .contact-layout {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
