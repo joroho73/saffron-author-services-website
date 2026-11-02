@@ -60,6 +60,29 @@ if (document.readyState === "loading") {
   loadFooter();
 }
 
+async function loadFavicon() {
+  const container = document.getElementById("site-favicon");
+  if (!container) return;
+
+  try {
+    const response = await fetch("/includes/favicon.html");
+
+    if (!response.ok) {
+      throw new Error(`Favicon request failed: ${response.status}`);
+    }
+
+    container.innerHTML = await response.text();
+  } catch (error) {
+    console.error("Could not load favicon:", error);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadFavicon);
+} else {
+  loadFavicon();
+}
+
 
 
 
