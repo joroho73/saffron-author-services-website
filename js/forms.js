@@ -1,154 +1,103 @@
-document.addEventListener("DOMContentLoaded", () => {
-    initialiseAjaxForm({
-        formId: "contact-form",
-        statusId: "formStatus",
-        endpoint: "/php/contact.php",
-        submittingText: "Sending...",
-        successEvent: "contact_form_submit",
-        eventCategory: "contact",
-        eventLabel: "Contact Form",
-        fallbackMessage:
-            "Sorry, something went wrong. Please call or email instead."
-    });
-
-    initialiseAjaxForm({
-        formId: "review-form",
-        statusId: "review-form-status",
-        endpoint: "/php/review.php",
-        submittingText: "Submitting...",
-        successEvent: "review_submitted",
-        eventCategory: "reviews",
-        eventLabel: "Review Form",
-        fallbackMessage:
-            "Sorry, your review could not be submitted. Please try again later.",
-        beforeSubmit: validateReviewForm
-    });
-});
-
-
-function initialiseAjaxForm({
-    formId,
-    statusId,
-    endpoint,
-    submittingText,
-    successEvent,
-    eventCategory,
-    eventLabel,
-    fallbackMessage,
-    beforeSubmit
-}) {
-    const form = document.getElementById(formId);
-    const status = document.getElementById(statusId);
+(() => {
+  function initialiseContactForm() {
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("formStatus");
 
     if (!form || !status) return;
 
+    const button = form.querySelector('button[type="submit"]');
+    let sending = false;
+
+    const showStatus = (message, success) => {
+      status.textContent = message;
+      status.className = `form-status ${success ? "success" : "error"}`;
+    };
+
+    const outcome = new URLSearchParams(window.location.search).get("enquiry");
+
+    if (outcome === "sent") {
+      showStatus(
+        "Thank you. Your enquiry has been sent. I’ll be in touch soon.",
+        true
+      );
+    } else if (outcome === "error") {
+      showStatus(
+        "Your enquiry could not be sent. Please try again or email saffronauthorservices@gmail.com.",
+        false
+      );
+    }
+
     form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+      event.preventDefault();
 
-        status.textContent = "";
-        status.className = "form-status";
+      if (sending || !form.reportValidity()) return;
 
-        if (beforeSubmit && !beforeSubmit(form, status)) {
-            return;
-        }
+      sending = true;
+      const originalLabel = button?.textContent;
 
-        const button = form.querySelector("button[type='submit']");
-        const originalButtonText = button ? button.textContent : "";
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Sending…";
+      }
 
-        if (button) {
-            button.disabled = true;
-            button.textContent = submittingText;
-        }
+      form.setAttribute("aria-busy", "true");
+      status.textContent = "Sending your enquiry…";
+      status.className = "form-status";
 
-        try {
-            const response = await fetch(endpoint, {
-                method: "POST",
-                body: new FormData(form),
-                headers: {
-                    Accept: "application/json"
-                }
-            });
-
-            let result;
-
-            try {
-                result = await response.json();
-            } catch {
-                throw new Error("The server returned an invalid response.");
-            }
-
-            if (!response.ok || !result.success) {
-                status.textContent =
-                    result.message || "Sorry, something went wrong.";
-                status.classList.add("error");
-                return;
-            }
-
-            status.textContent =
-                result.message ||
-                "Thank you. Your submission has been received.";
-
-            status.classList.add("success");
-
-            form.reset();
-
-            if (typeof gtag === "function") {
-                gtag("event", successEvent, {
-                    event_category: eventCategory,
-                    event_label: eventLabel
-                });
-            }
-        } catch (error) {
-            console.error(`${formId} submission failed:`, error);
-
-            status.textContent = fallbackMessage;
-            status.classList.add("error");
-        } finally {
-            if (button) {
-                button.disabled = false;
-                button.textContent = originalButtonText;
-            }
-        }
-    });
-}
-
-
-function validateReviewForm(form, status) {
-    const selectedRating = form.querySelector(
-        "input[name='rating']:checked"
-    );
-
-    if (!selectedRating) {
-        status.textContent = "Please choose a star rating.";
-        status.classList.add("error");
-
-        const ratingGroup = form.querySelector(".star-rating");
-
-        ratingGroup?.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: {
+            Accept: "application/json",
+          },
         });
 
-        return false;
-    }
+        const result = await response.json();
 
-    const permission = form.querySelector(
-        "input[name='permission']"
-    );
+        if (!response.ok || result.success !== true) {
+          showStatus(
+            result.message ||
+              "Your enquiry could not be sent. Please email saffronauthorservices@gmail.com.",
+            false
+          );
+          return;
+        }
 
-    const displayName = form.querySelector(
-        "select[name='display_name']"
-    );
+        showStatus(result.message, true);
+        form.reset();
 
-    if (permission?.checked && displayName && !displayName.value) {
-        status.textContent =
-            "Please choose how your name should appear if the review is published.";
+        // Track successful submissions without including personal details.
+        try {
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "contact_form_submit", {
+              event_category: "contact",
+              event_label: "Contact Form",
+            });
+          }
+        } catch {
+          // The enquiry was sent even if analytics failed.
+        }
+      } catch {
+        showStatus(
+          "We couldn’t confirm whether your enquiry was sent. Your text is still here. Please email saffronauthorservices@gmail.com if you need help.",
+          false
+        );
+      } finally {
+        sending = false;
+        form.removeAttribute("aria-busy");
 
-        status.classList.add("error");
-        displayName.focus();
+        if (button) {
+          button.disabled = false;
+          button.textContent = originalLabel;
+        }
+      }
+    });
+  }
 
-        return false;
-    }
-
-    return true;
-}
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialiseContactForm);
+  } else {
+    initialiseContactForm();
+  }
+})();

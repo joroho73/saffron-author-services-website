@@ -68,8 +68,7 @@
         </aside>
         <form id="contact-form" method="post" action="/php/contact.php">
           <p class="form-note">
-            This form prepares an email in your email app. You can review it
-            before sending. Required fields are marked *.
+            Send your enquiry directly to John. Required fields are marked *.
           </p>
           <div class="form-row">
             <div>
@@ -117,32 +116,24 @@
             placeholder="What are you writing? How far along are you? What would make the next step easier?"
           ></textarea>
 
-          <div id="formStatus" class="form-status"></div>
+          <div
+            id="formStatus"
+            class="form-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+          <noscript>
+            <p>
+              After submitting, you’ll return here. If the address contains
+              “enquiry=sent”, your enquiry was sent. If it contains
+              “enquiry=error”, please email saffronauthorservices@gmail.com.
+            </p>
+          </noscript>
 
           <button id="formButton" class="button" type="submit">
             Submit your enquiry
           </button>
-
-          <div id="email-fallback" hidden>
-            <label for="email-draft">
-              Your enquiry — copy this if your email app doesn’t open
-            </label>
-            <textarea id="email-draft" rows="8" readonly></textarea>
-            <p>
-              Send to
-              <a href="mailto:saffronauthorservices@gmail.com">
-                saffronauthorservices@gmail.com
-              </a>
-              .
-            </p>
-          </div>
-
-          <noscript>
-            <p>
-              Please email saffronauthorservices@gmail.com directly. JavaScript
-              is needed to prepare an email from this form.
-            </p>
-          </noscript>
         </form>
       </section>
     </main>
@@ -163,6 +154,6 @@
     </footer>
     <!-- JavaScript -->
     <script src="/js/site.js" defer></script>
-    <script src="/js/forms.js"></script>
+    <script src="/js/forms.js?v=2" defer></script>
   </body>
 </html>
