@@ -3,7 +3,7 @@ async function loadNavigation() {
   if (!container) return;
 
   try {
-    const response = await fetch("includes/nav.html");
+    const response = await fetch("/includes/nav.html");
 
     if (!response.ok) {
       throw new Error(`Navigation request failed: ${response.status}`);
@@ -42,7 +42,7 @@ async function loadFooter() {
   if (!container) return;
 
   try {
-    const response = await fetch("includes/footer.html");
+    const response = await fetch("/includes/footer.html");
 
     if (!response.ok) {
       throw new Error(`Footer request failed: ${response.status}`);
