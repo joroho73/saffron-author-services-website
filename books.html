@@ -23,7 +23,6 @@
       content="A growing showcase of books supported by Saffron Author Services."
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/site.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -36,13 +35,8 @@
           class="brand"
         />
       </a>
-      <nav aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="books.html" aria-current="page">Bookshelf</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+      <!-- Load navigation -->
+      <div id="site-navigation"></div>
     </header>
     <main id="main">
       <section class="page-intro wrap">
@@ -327,4 +321,5 @@
       </p>
     </footer>
   </body>
+  <script src="js/site.js" defer></script>
 </html>

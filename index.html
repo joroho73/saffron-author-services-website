@@ -22,7 +22,6 @@
       content="Practical, personal help with book formatting, covers, self-publishing and author websites."
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/site.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -35,12 +34,8 @@
           class="brand"
         />
       </a>
-      <nav aria-label="Main navigation">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="services.html">Services</a>
-        <a href="books.html">Books</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+      <!-- Load navigation -->
+      <div id="site-navigation"></div>
       </nav>
     </header>
     <main id="main">
@@ -212,4 +207,5 @@
       </p>
     </footer>
   </body>
+  <script src="js/site.js" defer></script>
 </html>

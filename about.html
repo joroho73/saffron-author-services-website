@@ -23,7 +23,6 @@
       content="Meet John Howard, the person behind Saffron Author Services."
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/site.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -35,13 +34,8 @@
         width="270"
         class="brand"
       />
-      <nav aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="books.html">Books</a>
-        <a href="about.html" aria-current="page">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+      <!-- Load navigation -->
+      <div id="site-navigation"></div>
     </header>
     <main id="main">
       <section class="page-intro wrap">
@@ -145,4 +139,5 @@
       </p>
     </footer>
   </body>
+  <script src="js/site.js" defer></script>
 </html>

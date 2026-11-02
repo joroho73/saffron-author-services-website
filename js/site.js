@@ -1,3 +1,43 @@
+async function loadNavigation() {
+  const container = document.getElementById("site-navigation");
+  if (!container) return;
+
+  try {
+    const response = await fetch("includes/nav.html");
+
+    if (!response.ok) {
+      throw new Error(`Navigation request failed: ${response.status}`);
+    }
+
+    container.innerHTML = await response.text();
+
+    const currentPage =
+      window.location.pathname.split("/").pop() || "index.html";
+
+    container.querySelectorAll("nav a").forEach((link) => {
+      const linkedPage = new URL(link.href).pathname.split("/").pop();
+
+      if (linkedPage === currentPage) {
+        link.setAttribute("aria-current", "page");
+      }
+    });
+  } catch (error) {
+    console.error("Could not load navigation:", error);
+
+    const fallback = document.createElement("a");
+    fallback.href = "index.html";
+    fallback.textContent = "Home";
+    container.replaceChildren(fallback);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadNavigation);
+} else {
+  loadNavigation();
+}
+
+
 const form = document.querySelector('#enquiry-form');
 form?.addEventListener('submit', (event) => {
   event.preventDefault();
