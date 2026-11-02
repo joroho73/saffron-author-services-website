@@ -37,6 +37,31 @@ if (document.readyState === "loading") {
   loadNavigation();
 }
 
+async function loadFooter() {
+  const container = document.getElementById("site-footer");
+  if (!container) return;
+
+  try {
+    const response = await fetch("includes/footer.html");
+
+    if (!response.ok) {
+      throw new Error(`Footer request failed: ${response.status}`);
+    }
+
+    container.innerHTML = await response.text();
+  } catch (error) {
+    console.error("Could not load footer:", error);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadFooter);
+} else {
+  loadFooter();
+}
+
+
+
 
 const form = document.querySelector('#enquiry-form');
 form?.addEventListener('submit', (event) => {
